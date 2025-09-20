@@ -108,28 +108,30 @@ export class RobotsSeoComponent implements OnInit {
   }
 
   onOptionChange(option: RobotsOption): void {
-    if (option.checked) {
-      // Handle mutual exclusivity
-      if (option.key === 'index') {
-        this.setOptionChecked('noindex', false);
-      } else if (option.key === 'noindex') {
-        this.setOptionChecked('index', false);
-        this.setOptionChecked('follow', false);
-        this.setOptionChecked('nofollow', false);
-      } else if (option.key === 'follow') {
-        this.setOptionChecked('nofollow', false);
-      } else if (option.key === 'nofollow') {
-        this.setOptionChecked('follow', false);
-      }
-    } else {
+    // Handle mutual exclusivity based on the new state
+    if (option.key === 'index' && option.checked) {
+      this.setOptionChecked('noindex', false);
+    } else if (option.key === 'noindex' && option.checked) {
+      this.setOptionChecked('index', false);
+      // When noindex is selected, disable follow/nofollow
+      this.setOptionChecked('follow', false);
+      this.setOptionChecked('nofollow', false);
+    } else if (option.key === 'noindex' && !option.checked) {
       // If unchecking noindex, automatically check index
-      if (option.key === 'noindex') {
-        this.setOptionChecked('index', true);
-      }
+      this.setOptionChecked('index', true);
+    } else if (option.key === 'follow' && option.checked) {
+      this.setOptionChecked('nofollow', false);
+    } else if (option.key === 'nofollow' && option.checked) {
+      this.setOptionChecked('follow', false);
     }
 
     this.updatePreview();
     this.updateEffects();
+  }
+
+  toggleOption(option: RobotsOption): void {
+    option.checked = !option.checked;
+    this.onOptionChange(option);
   }
 
   onAdvancedSettingChange(): void {

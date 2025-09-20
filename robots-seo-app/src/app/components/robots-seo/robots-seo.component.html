@@ -7,12 +7,13 @@
         <label 
           *ngFor="let option of robotsOptions" 
           [class]="getOptionClass(option)"
-          [attr.data-option]="option.key">
+          [attr.data-option]="option.key"
+          (click)="toggleOption(option)">
           <input 
             type="checkbox" 
             class="robinp roboption"
             [(ngModel)]="option.checked"
-            (change)="onOptionChange(option)">
+            (click)="$event.stopPropagation()">
           <span class="robmark"></span>
           <h4 class="robchkh">{{ option.title }}</h4>
           <p class="robchkp">{{ option.description }}</p>
