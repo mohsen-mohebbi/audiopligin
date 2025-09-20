@@ -1,0 +1,11 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+  margin: 0;
+}
+
+html {
+  direction: rtl;
+}
